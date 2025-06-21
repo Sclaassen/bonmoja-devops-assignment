@@ -100,8 +100,9 @@ architecture-diagram.svg
 1. **Clone the repository**
 
    ```sh
-   git clone <repo-url>
+   mkdir devops-assignment
    cd devops-assignment
+   git clone https://github.com/Sclaassen/bonmoja-devops-assignment.git 
    ```
 
 2. **Install Terraform**

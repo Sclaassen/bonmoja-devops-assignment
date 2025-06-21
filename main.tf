@@ -40,13 +40,14 @@ module "rds" {
 
 module "ecs" {
   source                      = "./modules/ecs"
+  aws_region                  = var.aws_region
   environment                 = var.environment
   vpc_id                      = module.network.vpc_id
   security_group_id           = module.network.vpc_security_group_id
   ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
   ecs_task_role_arn           = module.iam.ecs_task_role_arn
   ecs_cluster_name            = "${var.environment}-ecs-cluster"
-  public_subnets             = module.network.public_subnets
+  public_subnets              = module.network.public_subnets
 }
 
 module "dynamodb" {
@@ -70,7 +71,7 @@ module "monitoring" {
   rds_instance_id = module.rds.rds_instance_id
   sqs_queue_name  = "${var.environment}-sqs-queue"
   environment     = var.environment
-
+  sns_subscription_email = var.sns_subscription_email
 }
 
 

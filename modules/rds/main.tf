@@ -56,18 +56,19 @@ resource "aws_security_group" "rds_sg" {
 }
 
 resource "aws_db_instance" "rds" {
-  identifier             = "${var.environment}-database"
-  allocated_storage      = var.allocated_storage
-  engine                 = "postgres"
-  engine_version         = "17.5"
-  instance_class         = var.instance_class
-  multi_az               = var.multi_az
-  db_name                = var.database_name
-  username               = var.database_username
-  password               = var.database_password
-  db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.id
-  vpc_security_group_ids = ["${aws_security_group.rds_sg.id}"]
-  skip_final_snapshot    = true
+  identifier                      = "${var.environment}-database"
+  allocated_storage               = var.allocated_storage
+  engine                          = "postgres"
+  engine_version                  = "17.5"
+  instance_class                  = var.instance_class
+  multi_az                        = var.multi_az
+  db_name                         = var.database_name
+  username                        = var.database_username
+  password                        = var.database_password
+  db_subnet_group_name            = aws_db_subnet_group.rds_subnet_group.id
+  vpc_security_group_ids          = ["${aws_security_group.rds_sg.id}"]
+  skip_final_snapshot             = true
+  enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
   tags = {
     Environment = "${var.environment}"
   }

@@ -1,6 +1,6 @@
 # This file contains the variable definitions for the ECS module.
 # ECS task definition variables
-
+variable "aws_region" {}
 variable "environment" {}
 variable "ecs_cluster_name" {}
 variable "security_group_id" {

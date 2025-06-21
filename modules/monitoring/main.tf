@@ -52,3 +52,9 @@ resource "aws_cloudwatch_metric_alarm" "sqs_depth_high" {
 resource "aws_sns_topic" "alerts" {
   name = "${var.environment}-alerts"
 }
+resource "aws_sns_topic_subscription" "alerts_email" {
+  topic_arn = aws_sns_topic.alerts.arn
+  protocol  = "email"
+  
+  endpoint  = var.sns_subscription_email
+}

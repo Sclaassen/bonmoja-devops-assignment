@@ -8,3 +8,8 @@ variable "rds_instance_id" {
 }
 
 variable "sqs_queue_name" {}
+
+variable "sns_subscription_email" {
+  description = "Email address for SNS topic subscription for alerts"
+  type        = string
+}

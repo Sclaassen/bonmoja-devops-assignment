@@ -19,6 +19,14 @@ resource "aws_ecs_task_definition" "http_echo" {
         }
       ]
       command = ["-text=Hello from ECS!"]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/${var.environment}-http-echo"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
     }
   ])
 }

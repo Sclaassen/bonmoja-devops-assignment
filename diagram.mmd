@@ -1,0 +1,32 @@
+flowchart TD
+  Internet["Internet"]
+  subgraph VPC["VPC (10.0.0.0/16)"]
+    direction TB
+
+    subgraph PublicSubnets["Public Subnets<br>10.0.1.0/24, 10.0.2.0/24"]
+      ALB["Application Load Balancer"]
+    end
+
+    subgraph PrivateSubnets["Private Subnets<br>10.0.11.0/24, 10.0.12.0/24"]
+      ECS["ECS Service (Fargate)<br>(hashicorp/http-echo)"]
+      RDS["RDS (PostgreSQL)"]
+      SQS["SQS Queue"]
+      DynamoDB["DynamoDB<br>(Session/Metadata)"]
+    end
+  end
+
+  Internet --> ALB
+  ALB --> ECS
+  ECS --> SQS & DynamoDB & RDS
+  SQS --> SNS["SNS Topic"]
+  SNS -- Email --> User["Email Subscription"]
+
+  %% Monitoring/Observability
+  RDS -.-> CloudWatchRDS["CloudWatch Logs/Alarms"]
+  SQS -.-> CloudWatchSQS["CloudWatch Logs/Alarms"]
+  SNS -.-> CloudWatchSNS["CloudWatch Logs/Alarms"]
+  ECS -.-> CloudWatchECS["CloudWatch Logs/Alarms"]
+
+  %% Security
+  IAM["IAM Roles/Policies"] -.-> ALB & ECS & RDS
+  SecurityGroups["Security Groups"] -.-> ALB & ECS & RDS

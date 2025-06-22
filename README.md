@@ -364,9 +364,3 @@ This project uses the public Docker image [`hashicorp/http-echo`](https://hub.do
   ```
 ---
 
-## Support
-
-For questions or issues, open an issue on GitHub or contact \[[your-email@domain.com](mailto:your-email@domain.com)].
-For improvements or bug reports, please create a pull request or submit an issue.
-
----

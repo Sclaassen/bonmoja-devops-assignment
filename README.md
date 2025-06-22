@@ -54,7 +54,7 @@ variables.tf
 outputs.tf
 README.md
 scripts/health_check.py
-architecture-diagram.svg
+architecture-diagram.png
 .github/workflows/terraform.yml
 .github/workflows/terraform_destroy.yml
 .gitignore
@@ -168,7 +168,7 @@ This project provisions a secure, cost-optimized, and production-ready AWS infra
 
 ## Architecture Diagram
 
-![Architecture Diagram](./architecture-diagram.svg)
+![Architecture Diagram](./architecture-diagram.png)
 
 ---
 
@@ -338,6 +338,30 @@ The GitHub Actions workflow (`.github/workflows/terraform.yml`) uses these varia
 
 This project uses the public Docker image [`hashicorp/http-echo`](https://hub.docker.com/r/hashicorp/http-echo) for the ECS service. No custom image is built or pushed to ECR. The terraform configuration pulls this image directly from Docker Hub and runs it in the ECS Fargate service.
 
+
+---
+
+## Networking Module Variables
+
+- `ssh_cidr_blocks` (list(string), default: ["0.0.0.0/0"]):
+  Controls which CIDR blocks are allowed SSH (port 22) access to EC2 instances in the VPC. Override this variable to restrict SSH access to trusted IPs/networks for improved security.
+
+### RDS Multi-AZ Deployment
+
+- `multi_az` (bool, default: `true`):
+  Controls whether the RDS instance is deployed in multiple Availability Zones for high availability. Set to `false` to deploy in a single AZ (lower cost, but less resilient). Example usage:
+
+  ```hcl
+  variable "multi_az" {
+    type    = bool
+    default = true
+  }
+  ```
+
+  To disable Multi-AZ, override with:
+  ```hcl
+  multi_az = false
+  ```
 ---
 
 ## Support

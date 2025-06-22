@@ -1,7 +1,7 @@
 ## Variables for the RDS module
 
 variable "environment" {}
-
+variable "aws_region" {}
 variable "subnet_ids" {
   type        = list(any)
   description = "Subnet ids"
@@ -38,4 +38,9 @@ variable "database_username" {
 
 variable "database_password" {
   description = "The password of the database"
+}
+
+variable "ecs_security_group_id" {
+  description = "The security group ID for the ECS service/tasks that need access to the database."
+  type        = string
 }

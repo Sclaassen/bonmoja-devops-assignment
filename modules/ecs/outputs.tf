@@ -24,3 +24,8 @@ output "alb_dns_name" {
   value       = aws_lb.ecs_alb.dns_name
   description = "The DNS name of the ECS service load balancer"
 }
+
+output "ecs_sg_id" {
+  value       = aws_security_group.ecs_sg.id
+  description = "The ID of the ECS security group."
+}

@@ -38,9 +38,15 @@ variable "sns_subscription_email" {
   type        = string
 }
 
-# variable "sqs_queue_name" {
-#   description = "SQS queue name for monitoring alarms"
-#   type        = string
-# }
+variable "rds_allocated_storage" {
+  description = "The amount of storage (in GB) to allocate for the RDS instance."
+  type        = number
+  default     = 20
+}
 
+variable "multi_az" {
+  description = "Deploy RDS instance in multiple Availability Zones for high availability"
+  type        = bool
+  default     = true
+}
 

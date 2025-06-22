@@ -38,12 +38,12 @@ resource "aws_security_group" "rds_sg" {
     self      = true
   }
 
-  // allow traffic for TCP 5432
+  // allow traffic for TCP 5432 from db_access_sg and ecs_sg
   ingress {
     from_port       = 5432
     to_port         = 5432
     protocol        = "tcp"
-    security_groups = ["${aws_security_group.db_access_sg.id}"]
+    security_groups = [aws_security_group.db_access_sg.id, var.ecs_security_group_id]
   }
 
   // outbound internet access
@@ -69,7 +69,10 @@ resource "aws_db_instance" "rds" {
   vpc_security_group_ids          = ["${aws_security_group.rds_sg.id}"]
   skip_final_snapshot             = true
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
+  region                          = var.aws_region
   tags = {
+    Name        = "${var.environment}-rds-instance"
     Environment = "${var.environment}"
   }
+
 }

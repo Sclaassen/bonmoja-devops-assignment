@@ -27,15 +27,17 @@ module "network" {
 
 module "rds" {
   source            = "./modules/rds"
+  aws_region        = var.aws_region
   environment       = var.environment
-  allocated_storage = "20"
+  allocated_storage = var.rds_allocated_storage
   database_name     = var.db_name
   database_username = var.db_username
   database_password = var.db_password
   subnet_ids        = module.network.private_subnets
   vpc_id            = module.network.vpc_id
   instance_class    = var.rds_instance_class
-  multi_az          = true
+  multi_az          = var.multi_az
+  ecs_security_group_id = module.ecs.ecs_sg_id
 }
 
 module "ecs" {
@@ -69,7 +71,7 @@ module "messaging" {
 module "monitoring" {
   source          = "./modules/monitoring"
   rds_instance_id = module.rds.rds_instance_id
-  sqs_queue_name  = "${var.environment}-sqs-queue"
+  sqs_queue_name  = "${var.environment}-main-queue"
   environment     = var.environment
   sns_subscription_email = var.sns_subscription_email
 }
